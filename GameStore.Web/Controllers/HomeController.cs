@@ -1,30 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
+using GameStore.BLL.DTO;
+using GameStore.BLL.Infrastructure;
+using GameStore.BLL.BusinessModels;
+using GameStore.BLL.Services;
+using GameStore.Web.Models;
+using AutoMapper;
 using System.Web;
+using GameStore.BLL.Interfaces;
 using System.Web.Mvc;
 
 namespace GameStore.Web.Controllers
 {
     public class HomeController : Controller
     {
+        IOrderService orderService;
+        public HomeController(IOrderService serv)
+        {
+            orderService = serv;
+        }
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<GameDTO> gamedto = orderService.GetGames();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameViewModel>()).CreateMapper();
+            var games = mapper.Map<IEnumerable<GameDTO>, List<GameViewModel>>(gamedto);
+            return View(games);
         }
 
-        public ActionResult About()
+        public ActionResult MakeOrder(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            try
+            {
+                GameDTO game = orderService.GetGame(id);
+                var order = new OrderViewModel { GameId= game.GameId };
 
-            return View();
+                return View(order);
+            }
+            catch (ValidationException ex)
+            {
+                return Content(ex.Message);
+            }
         }
-
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult MakeOrder(OrderViewModel order)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            try
+            {
+                var orderDto = new OrderDTO { GameId = order.GameId, Address = order.Address, PhoneNumber = order.PhoneNumber };
+                orderService.MakeOrder(orderDto);
+                return Content("<h2>Ваш заказ успешно оформлен</h2>");
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+            return View(order);
+        }
+        protected override void Dispose(bool disposing)
+        {
+            orderService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

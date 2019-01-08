@@ -4,7 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
+using Ninject.Modules;
+using Ninject;
+using GameStore.BLL.Infrastructure;
+using GameStore.Web.Util;
 using System.Web.Routing;
+using Ninject.Web.Mvc;
 
 namespace GameStore.Web
 {
@@ -16,6 +21,11 @@ namespace GameStore.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule orderModule = new OrderModule();
+            NinjectModule serviceModule = new ServiceModule("DBConnection");
+            var kernel = new StandardKernel(orderModule, serviceModule);
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }
 }
