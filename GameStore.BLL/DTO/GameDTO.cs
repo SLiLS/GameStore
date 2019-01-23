@@ -13,5 +13,9 @@ namespace GameStore.BLL.DTO
         public string GameDescription { get; set; }
         public string GameCategory { get; set; }
         public decimal Price { get; set; }
+        public string OperationSystem { get; set; }
+        public string CPU { get; set; }
+        public string RAM { get; set; }
+        public string VideoCard { get; set; }
     }
 }

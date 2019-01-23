@@ -10,33 +10,39 @@ using System.Data.Entity;
 
 namespace GameStore.DAL.Repositories
 {
-   public class GameRepository  : IRepository<Game>
+   public class GameRepository  : IGameRepository
     {
         GameContext db;
+      
         public GameRepository(GameContext context)
         {
             db = context;
         }
-        public IEnumerable<Game> GetAll()
+        public  IEnumerable<Game> GetAll()
         {
             return db.Games;
         }
-        public Game Get(int id)
+     
+        public Game Get(int? id)
         {
-            return db.Games.Find(id);
+            return db.Games.Where(i => i.Id == id).Include(r => r.Requirement).FirstOrDefault();
         }
         public void Create(Game item)
         {
             db.Games.Add(item);
-            db.SaveChanges();
+            
+           
         }
         public void Update(Game item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
-        public IEnumerable<Game> Find(Func<Game,Boolean> predicate)
+        public IEnumerable<Game> FindGames(string searchtext)
         {
-            return db.Games.Where(predicate).ToList();
+            List<Game> games = new List<Game>();
+            games.AddRange(db.Games.Where(b => b.GameName.Contains(searchtext)).Include(v => v.Requirement));
+            games.AddRange(db.Games.Where(b => b.GameCategory.Contains(searchtext)).Include(v => v.Requirement));
+            return games;
         }
         public void Delete(int id)
         {

@@ -5,6 +5,7 @@ using System.Web;
 using Ninject.Modules;
 using GameStore.BLL.Interfaces;
 using GameStore.BLL.Services;
+using System.Web.ModelBinding;
 
 namespace GameStore.Web.Util
 {
@@ -13,6 +14,11 @@ namespace GameStore.Web.Util
         public override void Load()
         {
             Bind<IOrderService>().To<OrderService>();
+            Bind<IGameService>().To<GameService>();
+           
+            Bind<IUserService>().To<UserSevice>();
+            Kernel.Unbind<ModelValidatorProvider>();
+
         }
     }
 }

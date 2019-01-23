@@ -10,8 +10,9 @@ namespace GameStore.BLL.Interfaces
    public interface IOrderService
     {
         void MakeOrder(OrderDTO order);
-        GameDTO GetGame(int? id);
-        IEnumerable<GameDTO> GetGames();
+        //GameDTO GetGame(int? id);
+        //Task<IEnumerable<GameDTO>> GetGames();
+
         void Dispose();
     }
 }

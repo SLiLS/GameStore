@@ -15,15 +15,17 @@ namespace GameStore.DAL.Repositories
         GameContext db;
         public OrderRepository(GameContext context)
         {
+            
             db = context;
         }
+        
         public IEnumerable<Order> GetAll()
         {
             return db.Orders;
         }
-        public Order Get(int id)
+        public Order Get(int? id)
         {
-            return db.Orders.Find(id);
+            return  db.Orders.Find(id);
         }
         public void Create(Order item)
         {
@@ -34,10 +36,7 @@ namespace GameStore.DAL.Repositories
         {
             db.Entry(item).State = EntityState.Modified;
         }
-        public IEnumerable<Order> Find(Func<Order, Boolean> predicate)
-        {
-            return db.Orders.Where(predicate).ToList();
-        }
+       
         public void Delete(int id)
         {
             Order order = db.Orders.Find(id);

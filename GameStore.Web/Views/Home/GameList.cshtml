@@ -1,0 +1,30 @@
+﻿
+
+    @model PagedList.IPagedList<GameStore.Web.Models.GameSearchModel>
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using PagedList.Mvc;
+
+<div >
+    @using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "result" }))
+    {
+        <input type="text" name="searchtext" />
+            <input type="submit" value="Поиск" />
+    }
+    @foreach (var item in Model)
+    {
+        <div class="container " style="height:300px; border-color:black; border-width: 5px;">
+            <h4 style="font-weight:bold;">@item.GameName</h4>
+            <p>@item.GameDescription</p><br />
+            <p style="font-weight:bold;">Жанр:@item.GameCategory</p>
+            <p style="font-weight:bold;">Цена:@item.Price $</p>
+            <a class="btn btn-success " style=" margin-left:600px;">Добавить в корзину</a>
+
+
+        </div>
+
+    }
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchtext = ViewBag.SearchName }))
+    </div>
+
+</div>

@@ -15,28 +15,57 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                   
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Game Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <form class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Games", "About", "Home")</li>
+                    <li>@Html.ActionLink("About project", "Contact", "Home")</li>
+
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><h4 class="" style="color:grey; margin-right:20px; margin-top:17px;">Корзина покупок</h4></li>
+                    <li><span class="glyphicon glyphicon-shopping-cart glyphicon-align-center" style="font-size:45px; color:white;" ></span></li>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Войти", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                    }
+                    else
+                    {
+                        @*<li>
+                    <a>Привет @User.Identity.Name</a>
+                </li>*@
+                        <li>@Html.ActionLink("Выход", "Logout", "Account")</li>
+                    }
+                    @*<span class="glyphicon glyphicon-shopping-cart"></span>*@
+                </ul>
+                
+                
+             
+
+            </form>
             </div>
+       
         </div>
-    </div>
+  
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+           
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/scripts/jquery-1.12.4.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/scripts/jquery-1.12.4.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>

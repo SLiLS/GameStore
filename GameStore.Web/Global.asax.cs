@@ -11,6 +11,7 @@ using GameStore.Web.Util;
 using System.Web.Routing;
 using Ninject.Web.Mvc;
 
+
 namespace GameStore.Web
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -23,9 +24,10 @@ namespace GameStore.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             NinjectModule orderModule = new OrderModule();
-            NinjectModule serviceModule = new ServiceModule("DBConnection");
+            ServiceModule serviceModule = new ServiceModule();
             var kernel = new StandardKernel(orderModule, serviceModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+  
         }
     }
 }

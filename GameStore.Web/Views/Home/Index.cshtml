@@ -1,41 +1,18 @@
-﻿@model IEnumerable<GameStore.Web.Models.GameViewModel>
+﻿@model PagedList.IPagedList<GameStore.Web.Models.GameSearchModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using PagedList.Mvc;
 
-@{
-    ViewBag.Title = "Index";
-}
+<div class="col-lg-3">
 
-<h2>Index</h2>
+    
+</div>
+<div class="col-lg-8" id="result">
+   
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.GameName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GameDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th></th>
-    </tr>
+        
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GameName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GameDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.ActionLink("Order", "MakeOrder", new { id = item.GameId })
-            </td>
-        </tr>
-    }
 
-</table>
+        @Html.Partial("GameList")
+        
+
+</div>

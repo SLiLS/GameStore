@@ -22,9 +22,9 @@ namespace GameStore.BLL.Services
         {
             Database = db;
         }
-        public void MakeOrder(OrderDTO orderDTO)
+        public  void MakeOrder(OrderDTO orderDTO)
         {
-            Game game = Database.Games.Get(orderDTO.GameId);
+            Game game =  Database.Games.Get(orderDTO.GameId);
             //проверка наличия товара
             if (game == null)
                 throw new ValidationException("Игра не найдена","");
@@ -44,20 +44,26 @@ namespace GameStore.BLL.Services
                 
             
         }
-        public IEnumerable<GameDTO> GetGames()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Game>, List<GameDTO>>(Database.Games.GetAll());
-        }
-        public GameDTO GetGame(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("Игра не найдена", "");
-            var game = Database.Games.Get(id.Value);
-            if (game == null)
-                throw new ValidationException("Игра не найдена", "");
-            return new GameDTO { GameCategory = game.GameCategory, GameDescription = game.GameDescription, GameName = game.GameName, Price = game.Price };
-        }
+        //public IEnumerable<GameDTO> GetGames()
+        //{
+        //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>()).CreateMapper();
+        //    return mapper.Map<IEnumerable<Game>, List<GameDTO>>(Database.Games.GetAll());
+        //}
+        //public async Task<IEnumerable<GameDTO>> GetGames()
+        //{
+            
+        //    var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>()).CreateMapper();
+        //    return  mapper.Map<IEnumerable<Game>, List<GameDTO>>(await Database.Games.GetAllGamesAsync());
+        //}
+        //public async Task<GameDTO> GetGame(int? id)
+        //{
+        //    if (id == null)
+        //        throw new ValidationException("Игра не найдена", "");
+        //    var game = await Database.Games.Get(id.Value);
+        //    if (game == null)
+        //        throw new ValidationException("Игра не найдена", "");
+        //    return  new GameDTO { GameCategory = game.GameCategory, GameDescription = game.GameDescription, GameName = game.GameName, Price = game.Price };
+        //}
          public void Dispose()
         {
             Database.Dispose();

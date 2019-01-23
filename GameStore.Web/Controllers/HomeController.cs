@@ -8,32 +8,65 @@ using GameStore.BLL.BusinessModels;
 using GameStore.BLL.Services;
 using GameStore.Web.Models;
 using AutoMapper;
+using System.Threading.Tasks;
 using System.Web;
 using GameStore.BLL.Interfaces;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
+using PagedList.Mvc;
+using PagedList;
 
 namespace GameStore.Web.Controllers
 {
     public class HomeController : Controller
     {
+
         IOrderService orderService;
-        public HomeController(IOrderService serv)
+        IGameService gameService;
+        private IUserService UserService
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().GetUserManager<IUserService>();
+            }
+        }
+        public HomeController(IOrderService serv, IGameService game)
         {
             orderService = serv;
+            gameService = game;
         }
-        public ActionResult Index()
+        public ActionResult Index(int? page,string searchtext)
         {
-            IEnumerable<GameDTO> gamedto = orderService.GetGames();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameViewModel>()).CreateMapper();
-            var games = mapper.Map<IEnumerable<GameDTO>, List<GameViewModel>>(gamedto);
-            return View(games);
+            int pageSize = 4;
+            int pageNumber = (page ?? 1);
+            
+            ViewBag.SearchName = searchtext;
+
+            var games = gameService.Findgames(searchtext).ToList();
+
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameSearchModel>()).CreateMapper();
+            var mapedgames = mapper.Map<IEnumerable<GameDTO>, List<GameSearchModel>>(games);
+
+
+            if (Request.IsAjaxRequest())
+            {
+               
+
+                return PartialView("GameList", mapedgames.ToPagedList(pageNumber, pageSize));
+            }
+
+
+            return View(mapedgames.ToPagedList(pageNumber, pageSize));
+           
+            
         }
+
 
         public ActionResult MakeOrder(int? id)
         {
             try
             {
-                GameDTO game = orderService.GetGame(id);
+                GameDTO game = gameService.GetGame(id);
                 var order = new OrderViewModel { GameId= game.GameId };
 
                 return View(order);
@@ -56,12 +89,11 @@ namespace GameStore.Web.Controllers
             {
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
-            return View(order);
+            return View("~Views/Home/Index");
         }
-        protected override void Dispose(bool disposing)
-        {
-            orderService.Dispose();
-            base.Dispose(disposing);
-        }
+        
+      
+    
+
     }
 }
