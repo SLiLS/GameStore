@@ -3,37 +3,61 @@ namespace GameStore.DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class DataMigration : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
             CreateTable(
+                "dbo.Carts",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ClientCartId = c.String(),
+                        Sum = c.Int(nullable: false),
+                        GameId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Games", t => t.GameId, cascadeDelete: true)
+                .Index(t => t.GameId);
+            
+            CreateTable(
                 "dbo.Games",
                 c => new
                     {
-                        GameId = c.String(nullable: false, maxLength: 128),
+                        Id = c.Int(nullable: false, identity: true),
                         GameName = c.String(),
                         GameDescription = c.String(),
                         GameCategory = c.String(),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.GameId);
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Requirements",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        OperationSystem = c.String(),
+                        CPU = c.String(),
+                        RAM = c.String(),
+                        VideoCard = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Games", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.Orders",
                 c => new
                     {
-                        OrderId = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Sum = c.Decimal(nullable: false, precision: 18, scale: 2),
                         PhoneNumber = c.String(),
                         Address = c.String(),
                         GameId = c.Int(nullable: false),
                         Date = c.DateTime(nullable: false),
-                        Game_GameId = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => t.OrderId)
-                .ForeignKey("dbo.Games", t => t.Game_GameId)
-                .Index(t => t.Game_GameId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetRoles",
@@ -112,21 +136,25 @@ namespace GameStore.DAL.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Orders", "Game_GameId", "dbo.Games");
+            DropForeignKey("dbo.Carts", "GameId", "dbo.Games");
+            DropForeignKey("dbo.Requirements", "Id", "dbo.Games");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Orders", new[] { "Game_GameId" });
+            DropIndex("dbo.Requirements", new[] { "Id" });
+            DropIndex("dbo.Carts", new[] { "GameId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Orders");
+            DropTable("dbo.Requirements");
             DropTable("dbo.Games");
+            DropTable("dbo.Carts");
         }
     }
 }

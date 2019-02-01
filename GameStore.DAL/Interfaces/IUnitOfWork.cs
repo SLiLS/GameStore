@@ -15,7 +15,7 @@ namespace GameStore.DAL.Interfaces
     {
         IGameRepository Games { get; }
         IRepository<Order> Orders { get;  }
-        ICartRepository Carts { get; }
+        //ICartRepository Carts { get; }
         IRequirementRepository Requirements { get; }
 
 

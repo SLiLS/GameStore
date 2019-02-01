@@ -13,32 +13,45 @@ namespace GameStore.DAL.Repositories
    public class CartRepository : ICartRepository
     {
         GameContext db;
+
         public CartRepository(GameContext context)
         {
             db = context;
         }
-        public IEnumerable<Cart> GetAll()
+        public void AddToCart(Game game, string Id)
         {
-            return db.Carts;
-        }
-        public Cart Get(int? id)
-        {
-            return  db.Carts.Find(id);
-        }
-        public void Create(Cart item)
-        {
-            db.Carts.Add(item);
+            Cart cart = db.Carts.Where(c => c.ClientCartId == Id && c.GameId == game.Id).FirstOrDefault();
+
+            if (cart != null)
+            {
+                cart.Sum++;
+            }
+            else
+            {
+                db.Carts.Add(new Cart { ClientCartId = Id, GameId = game.Id, Sum = 1 });
+
+            }
+
 
         }
-        public void Update(Cart item)
+
+
+
+
+        public IEnumerable<Cart> GetAll(string Id)
         {
-            db.Entry(item).State = EntityState.Modified;
+            return db.Carts.Where(c => c.ClientCartId == Id).Include(b => b.Game);
         }
-       
-        public void Delete(int id)
+
+        public void Remove(Game game, string Id)
         {
-            Cart cart = db.Carts.Find(id);
-            db.Carts.Remove(cart);
+            Cart cart = db.Carts.Where(b => b.ClientCartId == Id && b.Game.Id == game.Id).FirstOrDefault();
+            if (cart != null)
+            {
+                db.Carts.Remove(cart);
+            }
+
         }
+
     }
 }

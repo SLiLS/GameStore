@@ -9,9 +9,9 @@ namespace GameStore.Web.Models
     public class LoginViewModel
     {
 
-        //[Required]
+        [Required]
         public string Email { get; set; }
-        //[Required]
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

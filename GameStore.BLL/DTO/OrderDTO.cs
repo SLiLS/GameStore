@@ -8,7 +8,7 @@ namespace GameStore.BLL.DTO
 {
    public class OrderDTO
     {
-        public int OrderId { get; set; }
+        public int Id { get; set; }
         public string Sum { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }

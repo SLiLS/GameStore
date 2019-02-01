@@ -18,9 +18,9 @@ namespace GameStore.DAL.Entities
         public string GameDescription { get; set; }
         public string GameCategory { get; set; }
         public decimal Price { get; set; }
+        
         public Requirement Requirement { get; set; }
-        public int? CartId { get; set; }
-        public virtual Cart Cart { get; set; }
+      
      
 
     }

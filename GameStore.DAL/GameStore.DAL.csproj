@@ -57,42 +57,23 @@
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Cart.cs" />
-    <Compile Include="Entities\ClientProfile.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\Requirement.cs" />
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Interfaces\ICartRepository.cs" />
-    <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IGameRepository.cs" />
     <Compile Include="Interfaces\IRequirementRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201901112009324_DataMigration.cs" />
-    <Compile Include="Migrations\201901112009324_DataMigration.Designer.cs">
-      <DependentUpon>201901112009324_DataMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901122014578_CartMigration.cs" />
-    <Compile Include="Migrations\201901122014578_CartMigration.Designer.cs">
-      <DependentUpon>201901122014578_CartMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901131744235_int.cs" />
-    <Compile Include="Migrations\201901131744235_int.Designer.cs">
-      <DependentUpon>201901131744235_int.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901161749310_req.cs" />
-    <Compile Include="Migrations\201901161749310_req.Designer.cs">
-      <DependentUpon>201901161749310_req.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201901232054021_Cart.cs" />
-    <Compile Include="Migrations\201901232054021_Cart.Designer.cs">
-      <DependentUpon>201901232054021_Cart.cs</DependentUpon>
+    <Compile Include="Migrations\201902011439223_InitialCreate.cs" />
+    <Compile Include="Migrations\201902011439223_InitialCreate.Designer.cs">
+      <DependentUpon>201902011439223_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CartRepository.cs" />
-    <Compile Include="Repositories\ClientManager.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
@@ -103,20 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901112009324_DataMigration.resx">
-      <DependentUpon>201901112009324_DataMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901122014578_CartMigration.resx">
-      <DependentUpon>201901122014578_CartMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901131744235_int.resx">
-      <DependentUpon>201901131744235_int.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901161749310_req.resx">
-      <DependentUpon>201901161749310_req.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901232054021_Cart.resx">
-      <DependentUpon>201901232054021_Cart.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902011439223_InitialCreate.resx">
+      <DependentUpon>201902011439223_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -27,7 +27,9 @@ namespace GameStore.Web
             ServiceModule serviceModule = new ServiceModule();
             var kernel = new StandardKernel(orderModule, serviceModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
-  
+            kernel.Unbind<ModelValidatorProvider>();
+           
+
         }
     }
 }

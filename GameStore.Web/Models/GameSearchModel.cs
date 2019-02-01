@@ -7,7 +7,7 @@ namespace GameStore.Web.Models
 {
     public class GameSearchModel
     {
-        public int GameId { get; set; }
+        public int Id { get; set; }
         public string GameName { get; set; }
         public string GameDescription { get; set; }
         public string GameCategory { get; set; }

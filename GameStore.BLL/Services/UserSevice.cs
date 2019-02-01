@@ -33,9 +33,9 @@ namespace GameStore.BLL.Services
             {
                 user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
                 await Database.UserManager.CreateAsync(user, userDto.Password);
-                // добавляем роль
+              
                 await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
-                // создаем профиль клиента
+             
               
                 await Database.SaveAsync();
                 return new OperationDetails(true, "Регистрация успешно пройдена", "");
@@ -50,9 +50,9 @@ namespace GameStore.BLL.Services
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            // находим пользователя
+           
             ApplicationUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
-            // авторизуем его и возвращаем объект ClaimsIdentity
+           
             if (user != null)
                 claim = await Database.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);

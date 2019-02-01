@@ -4,21 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GameStore.DAL.Entities
 {
   public class Cart
     {
 
-        public int CartId { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        public decimal  Sum { get; set; }
-        public ICollection<Game> Games { get; set; }
-        public Cart ()
-        {
-            Games = new List<Game>();
-        }
-       
+
+        public string ClientCartId { get; set; }
+
+        public int Sum { get; set; }
+        public int GameId { get; set; }
+        public virtual Game Game { get; set; }
+
+
+
     }
 }

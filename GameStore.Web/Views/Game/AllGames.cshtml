@@ -1,0 +1,63 @@
+﻿ @model PagedList.IPagedList<GameStore.Web.Models.GameSearchModel>
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using PagedList.Mvc;
+
+<div >
+
+    @using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "result" }))
+    {
+        <input type="text" name="searchtext" />
+            <input type="submit" value="Поиск" />
+    }
+    @foreach (var item in Model)
+    {
+        <div class="container " style="height:300px; border-color:black; border-width: 5px;">
+            <h4 style="font-weight:bold;">Id: @item.Id@item.GameName</h4>
+            <p>@item.GameDescription</p><br />
+            <p style="font-weight:bold;">Жанр:@item.GameCategory</p>
+            <p style="font-weight:bold;">Цена:@item.Price $</p>
+            <a class="btn btn-success " style=" margin-left:600px;">Добавить в корзину</a>
+            @Html.ActionLink("Edit","Edit",new { id=item.Id},new { @class= "btn btn-success" })
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-success" })
+
+
+        </div>
+
+    }
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchtext = ViewBag.SearchName }))
+    </div>
+
+</div>
+<script>
+    //$(document).ready(function () {
+    //    $('#Add').click(function (event) {
+    //        event.preventDefault();
+    //        $.get(this.href, function (response) {
+    //            $('.divForAdd').html(response);
+    //        });
+    //        $('#Add-Model').modal({
+    //            backdrop: 'static',
+    //        }, 'show');
+    //    });
+    //    $('.editDialog').click(function (event) {
+    //        event.preventDefault();
+    //        $.get(this.href, function (response) {
+    //            $('.divForUpdate').html(response);
+    //        });
+    //        $('#Edit-Model').modal({
+    //            backdrop: 'static',
+    //        }, 'show');
+    //    });
+    //});
+    $("p").css("color", "red");
+</script>
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap/css/bootstrap-theme.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap/css/font-awesome.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Script/jquery-3.2.6.min.js")"></script>
+<script src="@Url.Content("~/Script/jquery.unobtrusive-ajax.min.js")"></script>
+<script src="@Url.Content("~/Script/bootstrap/js/bootstrap.min.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery-1.12.4.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
+

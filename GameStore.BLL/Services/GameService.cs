@@ -47,8 +47,18 @@ namespace GameStore.BLL.Services
         }
         public void DeleteGame(int id)
         {
-            database.Games.Delete(id);
-            database.Requirements.Delete(id);
+           var game= database.Games.Get(id);
+            if(game!=null)
+            {
+                database.Games.Delete(id);
+            }
+            var requirement = database.Requirements.Get(id);
+            if (requirement != null)
+            {
+
+                database.Requirements.Delete(id);
+            }
+
             
             database.Save();
         }
@@ -56,7 +66,7 @@ namespace GameStore.BLL.Services
         {
             database.Games.Create(new Game { GameCategory = game.GameCategory, GameDescription = game.GameDescription, GameName = game.GameName, Price = game.Price });
 
-            database.Requirements.Create(new Requirement {CPU=game.CPU,RAM=game.RAM,OperationSystem=game.OperationSystem,VideoCard=game.VideoCard,Id=game.GameId});
+            database.Requirements.Create(new Requirement {CPU=game.CPU,RAM=game.RAM,OperationSystem=game.OperationSystem,VideoCard=game.VideoCard,Id=game.Id});
             database.Save();
         }
         public void UpdateGame(GameDTO game)

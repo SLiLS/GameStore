@@ -7,7 +7,7 @@ namespace GameStore.Web.Models
 {
     public class CartViewModel
     {
-        public int CartId { get; set; }
+        public int Id { get; set; }
         public int GameViewModelId { get; set; }
       
     }

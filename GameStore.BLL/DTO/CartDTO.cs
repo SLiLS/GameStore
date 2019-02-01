@@ -8,7 +8,7 @@ namespace GameStore.BLL.DTO
 {
   public  class CartDTO
     {
-        public int CartId { get; set; }
+        public int Id { get; set; }
         public decimal Sum { get; set; }
         public ICollection<GameDTO> Games { get; set; }
         public CartDTO()

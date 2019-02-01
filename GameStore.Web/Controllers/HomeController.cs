@@ -49,10 +49,9 @@ namespace GameStore.Web.Controllers
 
 
             if (Request.IsAjaxRequest())
-            {
-               
+            {          
 
-                return PartialView("GameList", mapedgames.ToPagedList(pageNumber, pageSize));
+                return /*Partial*/View(/*"GameList",*/ mapedgames.ToPagedList(pageNumber, pageSize));
             }
 
 
@@ -67,7 +66,7 @@ namespace GameStore.Web.Controllers
             try
             {
                 GameDTO game = gameService.GetGame(id);
-                var order = new OrderViewModel { GameId= game.GameId };
+                var order = new OrderViewModel { Id= game.Id };
 
                 return View(order);
             }
@@ -81,7 +80,7 @@ namespace GameStore.Web.Controllers
         {
             try
             {
-                var orderDto = new OrderDTO { GameId = order.GameId, Address = order.Address, PhoneNumber = order.PhoneNumber };
+                var orderDto = new OrderDTO { GameId = order.Id, Address = order.Address, PhoneNumber = order.PhoneNumber };
                 orderService.MakeOrder(orderDto);
                 return Content("<h2>Ваш заказ успешно оформлен</h2>");
             }
