@@ -17,6 +17,7 @@ namespace GameStore.Web.Util
             Bind<IGameService>().To<GameService>();
            
             Bind<IUserService>().To<UserSevice>();
+            Bind<ICategoryService>().To<CategoryService>();
             Kernel.Unbind<ModelValidatorProvider>();
 
         }

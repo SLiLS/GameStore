@@ -20,12 +20,12 @@ namespace GameStore.DAL.Repositories
         }
         public  IEnumerable<Game> GetAll()
         {
-            return db.Games;
+            return db.Games.Include(r => r.Requirement).Include(c => c.Category);
         }
      
         public Game Get(int? id)
         {
-            return db.Games.Where(i => i.Id == id).Include(r => r.Requirement).FirstOrDefault();
+            return db.Games.Where(i => i.Id == id).Include(r => r.Requirement).Include(c=>c.Category).FirstOrDefault();
         }
         public void Create(Game item)
         {
@@ -40,8 +40,8 @@ namespace GameStore.DAL.Repositories
         public IEnumerable<Game> FindGames(string searchtext)
         {
             List<Game> games = new List<Game>();
-            games.AddRange(db.Games.Where(b => b.GameName.Contains(searchtext)).Include(v => v.Requirement));
-            games.AddRange(db.Games.Where(b => b.GameCategory.Contains(searchtext)).Include(v => v.Requirement));
+            games.AddRange(db.Games.Where(b => b.GameName.Contains(searchtext)).Include(v => v.Requirement).Include(c=>c.Category));
+            games.AddRange(db.Games.Where(b => b.Category.Name.Contains(searchtext)).Include(v => v.Requirement).Include(c => c.Category));
             return games;
         }
         public void Delete(int id)

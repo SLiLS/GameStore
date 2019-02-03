@@ -14,7 +14,7 @@ namespace GameStore.Web.Models
         public string GameName { get; set; }
        
         public string GameDescription { get; set; }
-   
+        public int CategoryId { get; set; }
         public string GameCategory { get; set; }
         [Required]
         public decimal Price { get; set; }

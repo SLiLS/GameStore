@@ -2,9 +2,18 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using PagedList.Mvc;*@
 
-<div class="col-lg-3">
-
-   
+<div class="col-lg-2">
+    <ul class="nav navbar-left navbar-left" >
+       <li class="badge" style="color:black;"><h4>Categories</h4></li>
+        <li>&nbsp;</li>
+        @foreach (var item in ViewBag.IndexCategory)
+        {
+            string x = item;
+            <li>&nbsp;</li>
+            <li> @Ajax.ActionLink(x, "Index", new { searchtext = item }, new AjaxOptions { UpdateTargetId = "result" }, new { @class = "btn btn-success",@style="color:black;" })</li>
+          
+        }
+    </ul>
 </div>
 <div class="col-lg-8" id="result">
    

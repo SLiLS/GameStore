@@ -205,6 +205,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CartViewModel.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\CreateGameModel.cs" />
     <Compile Include="Models\GameSearchModel.cs" />
     <Compile Include="Models\GameViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -305,6 +307,7 @@
     <Content Include="Views\Game\Index.cshtml" />
     <Content Include="Views\Game\AllGames.cshtml" />
     <Content Include="Views\Game\Edit.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

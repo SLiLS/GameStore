@@ -15,11 +15,11 @@ namespace GameStore.DAL.Interfaces
     {
         IGameRepository Games { get; }
         IRepository<Order> Orders { get;  }
-        //ICartRepository Carts { get; }
+        ICategoryRepository Categories { get; }
         IRequirementRepository Requirements { get; }
 
 
-        //IClientManager ClientManager { get; }
+        
         ApplicationRoleManager RoleManager { get; }
         ApplicationUserManager UserManager { get; }
 

@@ -23,6 +23,7 @@ namespace GameStore.Web.Controllers
 
         IOrderService orderService;
         IGameService gameService;
+        ICategoryService categoryService;
         private IUserService UserService
         {
             get
@@ -30,8 +31,9 @@ namespace GameStore.Web.Controllers
                 return HttpContext.GetOwinContext().GetUserManager<IUserService>();
             }
         }
-        public HomeController(IOrderService serv, IGameService game)
+        public HomeController(IOrderService serv, IGameService game,ICategoryService category)
         {
+            categoryService = category;
             orderService = serv;
             gameService = game;
         }
@@ -41,17 +43,20 @@ namespace GameStore.Web.Controllers
             int pageNumber = (page ?? 1);
             
             ViewBag.SearchName = searchtext;
-
+            
+            
             var games = gameService.Findgames(searchtext).ToList();
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameSearchModel>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameSearchModel>().ForMember(dto=>dto.GameCategory,c=>c.MapFrom(gc=>gc.Category))).CreateMapper();
             var mapedgames = mapper.Map<IEnumerable<GameDTO>, List<GameSearchModel>>(games);
 
-
+            ViewBag.IndexCategory = categoryService.GetCategories().Select(cl => cl.Name);
+            var cols= categoryService.GetCategories().Select(cl => cl.Name);
+         
             if (Request.IsAjaxRequest())
             {          
 
-                return /*Partial*/View(/*"GameList",*/ mapedgames.ToPagedList(pageNumber, pageSize));
+                return PartialView("GameList", mapedgames.ToPagedList(pageNumber, pageSize));
             }
 
 
@@ -92,7 +97,10 @@ namespace GameStore.Web.Controllers
         }
         
       
-    
+        public ActionResult Contact()
+        {
+            return View();
+        }
 
     }
 }

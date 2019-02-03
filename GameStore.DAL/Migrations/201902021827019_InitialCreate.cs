@@ -27,8 +27,19 @@ namespace GameStore.DAL.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         GameName = c.String(),
                         GameDescription = c.String(),
-                        GameCategory = c.String(),
+                        CategoryId = c.Int(nullable: false),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Categories", t => t.CategoryId, cascadeDelete: true)
+                .Index(t => t.CategoryId);
+            
+            CreateTable(
+                "dbo.Categories",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -138,6 +149,7 @@ namespace GameStore.DAL.Migrations
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Carts", "GameId", "dbo.Games");
             DropForeignKey("dbo.Requirements", "Id", "dbo.Games");
+            DropForeignKey("dbo.Games", "CategoryId", "dbo.Categories");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
@@ -145,6 +157,7 @@ namespace GameStore.DAL.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Requirements", new[] { "Id" });
+            DropIndex("dbo.Games", new[] { "CategoryId" });
             DropIndex("dbo.Carts", new[] { "GameId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
@@ -153,6 +166,7 @@ namespace GameStore.DAL.Migrations
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.Orders");
             DropTable("dbo.Requirements");
+            DropTable("dbo.Categories");
             DropTable("dbo.Games");
             DropTable("dbo.Carts");
         }

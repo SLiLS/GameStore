@@ -22,25 +22,29 @@
             <form class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Games", "About", "Home")</li>
+                    <li>@Html.ActionLink("Games", "Index", "Home")</li>
                     <li>@Html.ActionLink("About project", "Contact", "Home")</li>
-                    
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Admin Panel", "Index", "Game")</li>
+                    }
+                   
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><h4 class="" style="color:grey; margin-right:20px; margin-top:17px;">Корзина покупок</h4></li>
+                    <li><h4 class="" style="color:grey; margin-right:20px; margin-top:17px;">Cart</h4></li>
                     <li><span class="glyphicon glyphicon-shopping-cart glyphicon-align-center" style="font-size:45px; color:white;" ></span></li>
                     @if (!User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Войти", "Login", "Account")</li>
-                        <li>@Html.ActionLink("Регистрация", "Register", "Account")</li>
+                        <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+                        <li>@Html.ActionLink("Register", "Register", "Account")</li>
                     }
                     else
                     {
                         @*<li>
                     <a>Привет @User.Identity.Name</a>
                 </li>*@
-                        <li>@Html.ActionLink("Выход", "Logout", "Account")</li>
+                        <li>@Html.ActionLink("Log out", "Logout", "Account")</li>
                     }
                     @*<span class="glyphicon glyphicon-shopping-cart"></span>*@
                 </ul>

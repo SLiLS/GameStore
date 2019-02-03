@@ -8,16 +8,16 @@
     @using (Ajax.BeginForm("Index", new AjaxOptions { UpdateTargetId = "result" }))
     {
         <input type="text" name="searchtext" />
-            <input type="submit" value="Поиск" />
+            <input type="submit" value="Search" />
     }
     @foreach (var item in Model)
     {
         <div class="container " style="height:300px; border-color:black; border-width: 5px;">
             <h4 style="font-weight:bold;">@item.GameName</h4>
             <p>@item.GameDescription</p><br />
-            <p style="font-weight:bold;">Жанр:@item.GameCategory</p>
-            <p style="font-weight:bold;">Цена:@item.Price $</p>
-            <a class="btn btn-success " style=" margin-left:600px;">Добавить в корзину</a>
+            <p style="font-weight:bold;">Category:@item.GameCategory</p>
+            <p style="font-weight:bold;">Price:@item.Price $</p>
+            <a class="btn btn-success " style=" margin-left:600px;">Add to cart</a>
 
 
         </div>

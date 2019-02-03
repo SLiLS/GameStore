@@ -19,9 +19,11 @@ namespace GameStore.Web.Controllers.AdminControllers
     public class GameController : Controller
     {
         IGameService gameService;
-        public GameController( IGameService game)
+        ICategoryService categoryService;
+        public GameController( IGameService game, ICategoryService category)
         {
             gameService = game;
+            categoryService = category;
         }
         public ActionResult Index(int? page, string searchtext)
         {
@@ -32,7 +34,7 @@ namespace GameStore.Web.Controllers.AdminControllers
 
             var games = gameService.Findgames(searchtext).ToList();
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameSearchModel>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameSearchModel>().ForMember(dto => dto.GameCategory, c => c.MapFrom(gc => gc.Category))).CreateMapper();
             var mapedgames = mapper.Map<IEnumerable<GameDTO>, List<GameSearchModel>>(games);
 
 
@@ -47,7 +49,9 @@ namespace GameStore.Web.Controllers.AdminControllers
         }
        [HttpGet]
         public ActionResult Add()
-        {           
+        {
+            //CreateGameModel gameModel = new CreateGameModel { Categories = new SelectList(categoryService.GetCategories(), "Id", "Name") };
+            ViewBag.CreateCategory = new SelectList(categoryService.GetCategories(), "Id", "Name");
             return PartialView();
 
         }
@@ -61,8 +65,9 @@ namespace GameStore.Web.Controllers.AdminControllers
                 GameDTO gamedto = new GameDTO
                 {
                     CPU = gameview.CPU,
-                    GameCategory = gameview.GameCategory,
+
                     GameDescription = gameview.GameDescription,
+                    CategoryId = gameview.CategoryId,
                     GameName = gameview.GameName,
                     VideoCard = gameview.VideoCard,
                     RAM = gameview.RAM,
@@ -87,8 +92,8 @@ namespace GameStore.Web.Controllers.AdminControllers
         {
            GameDTO gamedto= gameService.GetGame(id);
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GameDTO, GameViewModel>()).CreateMapper();
-            GameViewModel gameview = mapper.Map<GameDTO, GameViewModel>(gamedto); 
-
+            GameViewModel gameview = mapper.Map<GameDTO, GameViewModel>(gamedto);
+            ViewBag.EditCategory = new SelectList(categoryService.GetCategories(), "Id", "Name");
             return PartialView(gameview);
         }
         [HttpPost]

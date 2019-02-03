@@ -15,7 +15,7 @@ namespace GameStore.DAL.EF
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Requirement> Requirements { get; set; }
-  
+        public DbSet<Category> Categories { get; set; }
 
         public GameContext()
             :base("GameStore")

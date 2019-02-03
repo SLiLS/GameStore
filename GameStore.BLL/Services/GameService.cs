@@ -26,7 +26,7 @@ namespace GameStore.BLL.Services
         {
             var map = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>().ForMember(dto => dto.CPU,
       src => src.MapFrom(b => b.Requirement.CPU)).ForMember(ram => ram.RAM, r => r.MapFrom(n => n.Requirement.RAM)).ForMember(opr => opr.OperationSystem,
-      sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
+      sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.Category, vd => vd.MapFrom(vid => vid.Category.Name)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
 
             return map.Map<IEnumerable<Game>,List<GameDTO>>( database.Games.GetAll());
         }
@@ -41,7 +41,7 @@ namespace GameStore.BLL.Services
                 throw new ValidationException("Игра не найдена ", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>().ForMember(dto => dto.CPU,
                 src => src.MapFrom(b => b.Requirement.CPU)).ForMember(ram => ram.RAM, r => r.MapFrom(n => n.Requirement.RAM)).ForMember(opr => opr.OperationSystem,
-                sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
+                sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.Category, vd => vd.MapFrom(vid => vid.Category.Name)).ForMember(v => v.CategoryId, vd => vd.MapFrom(vid => vid.Category.Id)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
 
             return mapper.Map<Game, GameDTO>(game);
         }
@@ -64,7 +64,7 @@ namespace GameStore.BLL.Services
         }
         public void CreateGame(GameDTO game)
         {
-            database.Games.Create(new Game { GameCategory = game.GameCategory, GameDescription = game.GameDescription, GameName = game.GameName, Price = game.Price });
+            database.Games.Create(new Game { CategoryId = game.CategoryId, GameDescription = game.GameDescription, GameName = game.GameName, Price = game.Price });
 
             database.Requirements.Create(new Requirement {CPU=game.CPU,RAM=game.RAM,OperationSystem=game.OperationSystem,VideoCard=game.VideoCard,Id=game.Id});
             database.Save();
@@ -92,7 +92,7 @@ namespace GameStore.BLL.Services
 
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>().ForMember(dto => dto.CPU,
                    src => src.MapFrom(b => b.Requirement.CPU)).ForMember(ram => ram.RAM, r => r.MapFrom(n => n.Requirement.RAM)).ForMember(opr => opr.OperationSystem,
-                   sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
+                   sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.Category, vd => vd.MapFrom(vid => vid.Category.Name)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
 
                 return mapper.Map<IEnumerable<Game>, List<GameDTO>>(games);
             }
@@ -102,11 +102,11 @@ namespace GameStore.BLL.Services
 
                 var games = database.Games.FindGames(searchtext);
 
-                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>().ForMember(dto => dto.CPU,
-                   src => src.MapFrom(b => b.Requirement.CPU)).ForMember(ram => ram.RAM, r => r.MapFrom(n => n.Requirement.RAM)).ForMember(opr => opr.OperationSystem,
-                   sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
+                var map = new MapperConfiguration(cfg => cfg.CreateMap<Game, GameDTO>().ForMember(dto => dto.CPU,
+                 src => src.MapFrom(b => b.Requirement.CPU)).ForMember(ram => ram.RAM, r => r.MapFrom(n => n.Requirement.RAM)).ForMember(opr => opr.OperationSystem,
+                 sys => sys.MapFrom(ops => ops.Requirement.OperationSystem)).ForMember(v => v.Category, vd => vd.MapFrom(vid => vid.Category.Name)).ForMember(v => v.VideoCard, vd => vd.MapFrom(vid => vid.Requirement.VideoCard))).CreateMapper();
 
-                return mapper.Map<IEnumerable<Game>, List<GameDTO>>(games);
+                return map.Map<IEnumerable<Game>, List<GameDTO>>(games);
             }
         }
     }

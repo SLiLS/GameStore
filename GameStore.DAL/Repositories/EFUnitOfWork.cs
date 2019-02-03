@@ -17,12 +17,12 @@ namespace GameStore.DAL.Repositories
         private GameContext db;
         private GameRepository gameRepository;
         private OrderRepository orderRepository;
-        //private CartRepository cartRepository;
+        private CategoryRepository categoryRepository;
         private RequirementRepository requirementRepository;
 
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
-        //private IClientManager clientManager;
+       
 
 
 
@@ -74,15 +74,15 @@ namespace GameStore.DAL.Repositories
                 return requirementRepository;
             }
         }
-        //public ICartRepository Carts
-        //{
-        //    get
-        //    {
-        //        if (cartRepository == null)
-        //            cartRepository = new CartRepository(db);
-        //        return cartRepository;
-        //    }
-        //}
+        public ICategoryRepository Categories
+        {
+            get
+            {
+                if (categoryRepository == null)
+                    categoryRepository = new CategoryRepository(db);
+                return categoryRepository;
+            }
+        }
 
         public IRepository<Order> Orders
         {
